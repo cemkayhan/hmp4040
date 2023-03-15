@@ -52,7 +52,7 @@ proc setcur {amp ip port} {
 
 proc supplyon {ip port} {
   connect sd $ip $port
-  puts $sd {OUTP:SEL 1}
+  puts $sd {OUTP 1}
   puts $sd {OUTP?}
   puts [read $sd]
   close $sd
@@ -60,7 +60,7 @@ proc supplyon {ip port} {
 
 proc supplyoff {ip port} {
   connect sd $ip $port
-  puts $sd {OUTP:SEL 0}
+  puts $sd {OUTP 0}
   puts $sd {OUTP?}
   puts [read $sd]
   close $sd
