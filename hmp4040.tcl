@@ -21,54 +21,54 @@ proc connect {sd ip port} {
 
 proc idn {ip port} {
   connect sd $ip $port
-  puts $sd {*IDN?}
+  puts $sd {*IDN?}; flush $sd
   puts [read $sd]
   close $sd
 }
 
 proc inst {ch ip port} {
   connect sd $ip $port
-  puts $sd "INST OUT$ch"
-  puts $sd {INST?}
+  puts $sd "INST OUT$ch"; flush $sd
+  puts $sd {INST?}; flush $sd
   puts [read $sd]
   close $sd
 }
 
 proc setvol {vol ip port} {
   connect sd $ip $port
-  puts $sd "VOLT $vol"
-  puts $sd {VOLT?}
+  puts $sd "VOLT $vol"; flush $sd
+  puts $sd {VOLT?}; flush $sd
   puts "[read $sd] Volt"
   close $sd
 }
 
 proc setcur {amp ip port} {
   connect sd $ip $port
-  puts $sd "CURR $amp"
-  puts $sd {CURR?}
+  puts $sd "CURR $amp"; flush $sd
+  puts $sd {CURR?}; flush $sd
   puts "[read $sd] Amper"
   close $sd
 }
 
 proc supplyon {ip port} {
   connect sd $ip $port
-  puts $sd {OUTP 1}
-  puts $sd {OUTP?}
+  puts $sd {OUTP 1}; flush $sd
+  puts $sd {OUTP?}; flush $sd
   puts [read $sd]
   close $sd
 }
 
 proc supplyoff {ip port} {
   connect sd $ip $port
-  puts $sd {OUTP 0}
-  puts $sd {OUTP?}
+  puts $sd {OUTP 0}; flush $sd
+  puts $sd {OUTP?}; flush $sd
   puts [read $sd]
   close $sd
 }
 
 proc status {ip port} {
   connect sd $ip $port
-  puts $sd {OUTP?}
+  puts $sd {OUTP?}; flush $sd
   puts [read $sd]
   close $sd
 }
