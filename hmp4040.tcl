@@ -1,3 +1,4 @@
+source sleep.tcl
 package require http
 
 ####################################################################################################################
@@ -18,79 +19,91 @@ User-Agent {Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102
 proc connect {sd ip port} {
   upvar $sd localsd
   set localsd [socket $ip $port]
-  fconfigure $localsd -buffering line -eofchar {\n}
+  fconfigure $localsd -buffersize 10000000 -buffering line -blocking 0 -eofchar {\n}
+}
+
+proc myread {sd} {
+  set tmp {}
+  while {![eof $sd]} {
+    append tmp [read $sd]
+  }
+  return $tmp
+}
+
+proc mysend {sd str} {
+  puts $sd $str; flush $sd; sleep 1
 }
 
 proc idn {ip port} {
   connect sd $ip $port
-  puts $sd {*IDN?}; flush $sd
-  puts [read $sd]
+  mysend $sd {*IDN?}
+  puts [myread $sd]
   close $sd
 }
 
 proc getinst {ip port} {
   connect sd $ip $port
-  puts $sd {INST?}; flush $sd
-  puts [read $sd]
+  mysend $sd {INST?}
+  puts [myread $sd]
   close $sd
 }
 
 proc setinst {ch ip port} {
   connect sd $ip $port
-  puts $sd "INST OUT$ch"; flush $sd
+  mysend $sd "INST OUT$ch"
   close $sd
 }
 
 proc getvol {ip port} {
   connect sd $ip $port
-  puts $sd {VOLT?}
-  puts "[read $sd] Volt"
+  mysend $sd {VOLT?}
+  puts "[myread $sd] Volt"
   close $sd
 }
 
 proc setvol {vol ip port} {
   connect sd $ip $port
-  puts $sd "VOLT $vol"
+  mysend $sd "VOLT $vol"
   close $sd
 }
 
 proc measvol {ip port} {
   connect sd $ip $port
-  puts $sd {MEAS:VOLT?}
-  puts "[read $sd] Volt"
+  mysend $sd {MEAS:VOLT?}
+  puts "[myread $sd] Volt"
   close $sd
 }
 
 proc setcur {amp ip port} {
   connect sd $ip $port
-  puts $sd "CURR $amp"
+  mysend $sd "CURR $amp"
   close $sd
 }
 
 proc getcur {ip port} {
   connect sd $ip $port
-  puts $sd {CURR?}
-  puts "[read $sd] Amper"
+  mysend $sd {CURR?}
+  puts "[myread $sd] Amper"
   close $sd
 }
 
 proc meascur {ip port} {
   connect sd $ip $port
-  puts $sd {MEAS:CURR?}
-  puts "[read $sd] Amper"
+  mysend $sd {MEAS:CURR?}
+  puts "[myread $sd] Amper"
   close $sd
 }
 
 proc getoutp {ip port} {
   connect sd $ip $port
-  puts $sd {OUTP?}; flush $sd
-  puts [read $sd]
+  mysend $sd {OUTP?}
+  puts [myread $sd]
   close $sd
 }
 
 proc setoutp {onoff ip port} {
   connect sd $ip $port
-  puts $sd "OUTP $onoff"; flush $sd
+  mysend $sd "OUTP $onoff"
   close $sd
 }
 

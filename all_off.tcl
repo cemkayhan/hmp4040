@@ -1,4 +1,5 @@
 source hmp4040.tcl
+
 idn $ip $port
 
 inst 1 $ip $port

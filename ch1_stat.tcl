@@ -1,7 +1,8 @@
 source hmp4040.tcl
+source ch1_settings.tcl
 
 idn $ip $port
-setinst 1 $ip $port
+setinst $channel $ip $port
 getinst $ip $port
 getvol $ip $port
 getcur $ip $port
