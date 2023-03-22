@@ -28,79 +28,80 @@ proc idn {ip port} {
   close $sd
 }
 
-proc inst {ch ip port} {
+proc getinst {ip port} {
   connect sd $ip $port
-  puts $sd "INST OUT$ch"; flush $sd
   puts $sd {INST?}; flush $sd
   puts [read $sd]
   close $sd
 }
 
-proc setvol {vol ip port} {
+proc setinst {ch ip port} {
   connect sd $ip $port
-  puts $sd "VOLT $vol"; flush $sd
-  puts $sd {VOLT?}; flush $sd
-  puts "[read $sd] Volt"
+  puts $sd "INST OUT$ch"; flush $sd
   close $sd
 }
 
 proc getvol {ip port} {
   connect sd $ip $port
-  puts $sd {VOLT?}; flush $sd
+  puts $sd {VOLT?}
   puts "[read $sd] Volt"
+  close $sd
+}
+
+proc setvol {vol ip port} {
+  connect sd $ip $port
+  puts $sd "VOLT $vol"
   close $sd
 }
 
 proc measvol {ip port} {
   connect sd $ip $port
-  puts $sd {MEAS:VOLT?}; flush $sd
+  puts $sd {MEAS:VOLT?}
   puts "[read $sd] Volt"
   close $sd
 }
 
 proc setcur {amp ip port} {
   connect sd $ip $port
-  puts $sd "CURR $amp"; flush $sd
-  puts $sd {CURR?}; flush $sd
-  puts "[read $sd] Amper"
+  puts $sd "CURR $amp"
   close $sd
 }
 
 proc getcur {ip port} {
   connect sd $ip $port
-  puts $sd {CURR?}; flush $sd
+  puts $sd {CURR?}
   puts "[read $sd] Amper"
   close $sd
 }
 
 proc meascur {ip port} {
   connect sd $ip $port
-  puts $sd {MEAS:CURR?}; flush $sd
+  puts $sd {MEAS:CURR?}
   puts "[read $sd] Amper"
   close $sd
 }
 
-proc supplyon {ip port} {
+proc getoutp {ip port} {
   connect sd $ip $port
-  puts $sd {OUTP 1}; flush $sd
   puts $sd {OUTP?}; flush $sd
   puts [read $sd]
+  close $sd
+}
+
+proc setoutp {onoff ip port} {
+  connect sd $ip $port
+  puts $sd "OUTP $onoff"; flush $sd
   close $sd
 }
 
 proc supplyoff {ip port} {
-  connect sd $ip $port
-  puts $sd {OUTP 0}; flush $sd
-  puts $sd {OUTP?}; flush $sd
-  puts [read $sd]
-  close $sd
+  setoutp 0 $ip $port
+  getoutp $ip $port
 }
 
-proc status {ip port} {
-  connect sd $ip $port
-  puts $sd {OUTP?}; flush $sd
-  puts [read $sd]
-  close $sd
+proc supplyon {ip port} {
+  setoutp 1 $ip $port
+  getoutp $ip $port
 }
 
 proc screenshot {ip url headers} {
