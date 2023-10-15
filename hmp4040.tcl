@@ -2,10 +2,10 @@ source sleep.tcl
 package require http
 
 ####################################################################################################################
-set ip 10.230.1.62
+set ip 10.250.1.191
 set port 5025
-set http_port 117
-set image_viewer {~/pqiv/pqiv -i}
+set http_port 80
+set image_viewer {pqiv -i}
 
 set url "http://$ip/crt_print.bmp?lang=en&update=Update"
 set headers [list Accept {text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8} \
