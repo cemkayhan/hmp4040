@@ -2,7 +2,7 @@ source sleep.tcl
 package require http
 
 ####################################################################################################################
-set ip 10.250.1.191
+set ip 10.251.1.191
 set port 5025
 set http_port 80
 set image_viewer {pqiv -i}
